@@ -1,0 +1,43 @@
+version: '3.2'
+services:
+  db:
+    image: db:latest
+    container_name: db
+    hostname: db-api
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      main:
+        aliases:
+          - db
+    ports:
+      - 6379:6379
+  injector:
+    image: injector:latest
+    container_name: injector
+    hostname: injector
+    build:
+      context: ./injector
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      main:
+        aliases:
+          - injector
+  report:
+    image: report:latest
+    container_name: report
+    hostname: report
+    build:
+      context: ./report
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      main:
+        aliases:
+          - injector
+networks:
+  main:
+    driver: bridge
